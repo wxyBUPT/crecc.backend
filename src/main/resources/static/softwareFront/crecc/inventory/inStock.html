@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>加密锁入库与库存管理</title>
+        <script src="../../dist/vue.js"></script>
+        <script src="../../dist/jquery-3.3.1.min.js"></script>
+        <script>
+            function getDate(){
+                var today = new Date();
+                var dd = today.getDate();
+                if(dd<10){
+                    dd = '0' + dd;
+                }
+                var mm = today.getMonth() + 1;
+                if(mm < 10){
+                    mm = '0' + mm;
+                }
+                var yyyy = today.getFullYear();
+                today = yyyy + "-" + mm + "-" + dd;
+                document.getElementById("inDate").value = today;
+            }
+            window.onload = function () {
+                //getDate();
+            }
+        </script>
+
+        <script type="text/x-template" id="orderlist-template">
+            <!-- 这里过滤需要显示的行 -->
+            <table v-if="filterData.length">
+                <thead>
+
+                <tr>
+                    <th v-for="(key, index) in columns" @click="sortBy(key)"
+                        :class="{active:sortKey==key}" :class="important:columnIsImportant[index]">
+                        {{columnNames[index]}}
+                                <span class="arrow" :class="sortOrders[key] > 0 ? 'asc':'des'">
+                                </span>
+                    </th>
+                </tr>
+
+                </thead>
+
+                <tbody>
+                <tr v-for="entry in filteredData">
+                    <td v-for="key in columns">
+                        {{entry[key]}}
+                    </td>
+                </tr>
+                <!---->
+                </tbody>
+            </table>
+            <p v-else>No matches found</p>
+        </script>
+
+    </head>
+
+    <body>
+        <div id="in-stock">
+            <form id="in_stock_form" @submit.prevent="inStock">
+                <select v-model="newInStock.isNet">
+                    <option selected="selected">单机锁</option>
+                    <option>网络锁</option>
+                </select>
+                <input v-model="newInStock.count" placeholder="数量" type="number" step="1" min="1" max="10000">
+                <input v-model="newInStock.startNum" placeholder="锁号(起)" type="number" step="1" min="20170000" max="20300000" style="width:150px">
+                <input v-model="newInStock.endNum" placeholder="锁号(止)" type="number" step="1" min="20170000" max="20300000" style="width:150px">
+                <input v-model="newInStock.producerName" placeholder="制作人" type="text">
+                <input v-model="newInStock.receiverName" placeholder="接受人" type="text">
+                <input v-model="newInStock.remark" placeholder="备注" type="text" style="width: 300px;">
+                <input v-model="newInStock.inDate" type="date"  id="inDate">
+                <input type="submit" value="加密锁入库">
+            </form>
+            <!--
+            <ul class="errors">
+                <li v-show="!validation.count">数量不正确</li>
+                <li v-show="!validation.num">锁号不正确</li>
+            </ul>
+            -->
+
+        </div>
+        <script src="inStock.js"></script>
+    </body>
+</html>

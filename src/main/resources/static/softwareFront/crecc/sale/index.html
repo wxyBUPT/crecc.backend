@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>铁路工程定额所软件系销售</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../../dist/vue.js"></script>
+</head>
+<body>
+    <!-- 表格的一个模板 -->
+    <script type="text/x-template" id="orderlist-template">
+        <!--这里过滤需要显示的行 -->
+
+        <table v-if="filterData.length">
+            <thead>
+
+            <tr>
+                <th v-for="(key, index) in columns" @click="sortBy(key)"
+                    :class="{active:sortKey==key}" :class="important:columnIsImportant[index]">
+                    {{columnNames[index]}}
+                        <span class="arrow" :class="sortOrders[key] > 0 ? 'asc':'des'">
+                        </span>
+                </th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+                <tr v-for="entry in filteredData">
+                    <td v-for="key in columns">
+                        {{entry[key]}}
+                    </td>
+                </tr>
+                <!---->
+            </tbody>
+        </table>
+        <p v-else>No matches found</p>
+    </script>
+
+<!-- 外面包一层tab栏 -->
+    <div id="dynamic-component" class="">
+        <button
+                v-for="tab in tabs"
+                v-bind:key="tab"
+                v-bind:class="['tab-button', { active: currentTab === tab }]"
+                v-on:click="currentTab = tab"
+        >{{ tab }}</button>
+        <orderlist-grid
+            :data="orders"
+            :columns="couumns"
+            :columnNames="columnNames"
+            :columnIsImportant=""
+            :filterKey="searchQuery">
+
+        </orderlist-grid>
+    </div>
+
+</body>
+</html>

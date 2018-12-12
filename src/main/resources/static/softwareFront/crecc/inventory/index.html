@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>铁路投资控制系统2017加密锁库存管理</title>
+        <link rel="stylesheet" href="style.css">
+        <!-- Delete ".min" for console warnings in development -->
+        <script src="../../dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="dynamic-component-demo" class="demo">
+            <button v-for="tab in tabs" :key="tab" :class="['tab-button', { active: currentTab === tab }]"
+                    @click="currentTab=tab">{{tab}}</button>
+            <comment :is="currentTabComponent" class="tab"></comment>
+        </div>
+    </body>
+</html>
